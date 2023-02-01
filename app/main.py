@@ -1,9 +1,10 @@
 # Import the necessary libraries for the application
-from fastapi import FastAPI
 from fastapi import FastAPI, UploadFile
+from fastapi.responses import RedirectResponse
 from google.cloud import storage
 import modules.ETL_procedures as ETL
 import modules.recomendation_procedures as MR
+import modules.NLP_procedures as NLP
 import pandas as pd
 from apyori import apriori
 import pickle
@@ -12,6 +13,9 @@ import os
 # Instance FastAPI to create a new web application
 app = FastAPI()
 
+@app.get('/')
+async def redirect():
+    return RedirectResponse(url='/docs')
 
 @app.post("/uploadfile/")
 async def create_upload_file(file: UploadFile):
@@ -234,3 +238,7 @@ def recomendation_5(user_id: str):
                 "eeba3ee5aa7d1d571752248eb4c81c20"
             ]
         }
+
+@app.get('/NLP/{input}')
+def nlp(input:str):
+    return {'msg': NLP.getSentimentAnalysis(input=input)}
