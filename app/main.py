@@ -9,6 +9,9 @@ import pandas as pd
 from apyori import apriori
 import pickle
 import os
+import google.auth
+
+
 
 # Instance FastAPI to create a new web application
 app = FastAPI()
@@ -105,10 +108,10 @@ def upload_to_gcs(file_name: str, project: str, bucket: str):
     bucket = client.bucket(bucket)
 
     # Create a new blob (representing the uploaded file) in the bucket
-    blob = bucket.blob("file_name")
+    blob = bucket.blob(file_name)
 
     # Upload the file to the blob
-    blob.upload_from_filename(f"data/{file_name}")
+    blob.upload_from_filename(f"data/datasets/{file_name}")
 
     # Return a JSON response indicating the location of the uploaded file
     return {'msg': f"File {file_name} has been uploaded to gs://{bucket.name}/{blob.name}"}
