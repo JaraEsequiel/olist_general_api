@@ -36,7 +36,7 @@ async def create_upload_file(file: UploadFile):
     return {"file_path": file_path}
 
 
-@app.get("/files/")
+@app.get("dominio/files/")
 def list_files():
     """
     Endpoint to list all the files in the 'data' folder.
